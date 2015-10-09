@@ -3,19 +3,22 @@ language: node_js
 node_js:
     - 0.12
 addons:
-    sauce_connect:
-        username: faceleg
-        access_key:
-            secure: e2OHqKjDVG1Vr1/0sCqTYK7BMq5tq5x/lhBUd3ziV8Hm3gFiY3ikeSI4fPylHFHiPXI1Vf204oda2jHFjbbixxRPgQ5vJuZ8Nx9buHdjOnpjUK91mf06jxBa+PW5KtRRURp81XGnwzOl5zZSDiuK3PeMwmTnePQNFv7G3lWFHJY=
+  sauce_connect:
+    username: "ngDialog"
+    access_key: "916ebec2-5857-4740-aa4f-047db7472e8c"
 before_script:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
     - npm install
+    - npm run webdriver-update
+    - npm run webdriver &
     - npm install -g bower
-    - bower install
+    - sleep 3
 script:
-    - npm test
     - npm run serve &
     - sleep 3
     - npm run protractor
     - npm run protractor-a11y
     - npm run protractor-console
+    - npm test
 

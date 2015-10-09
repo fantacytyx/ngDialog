@@ -8,13 +8,15 @@
     if (typeof module !== 'undefined' && module.exports) {
         // CommonJS
         if (typeof angular === 'undefined') {
-            module.exports = factory(require('angular'));
+            factory(require('angular'));
+            module.exports = 'ngDialog';
         } else {
-            module.exports = factory(angular);
+            factory(angular);
+            module.exports = 'ngDialog';
         }
     } else if (typeof define === 'function' && define.amd) {
         // AMD
-        define(['ngDialog'], function (angular) {
+        define(['ng-dialog'], function () {
           factory(root.angular);
         });
     } else {
@@ -113,6 +115,7 @@
                         var originalBodyPadding = parseInt(($elements.body.css('padding-right') || 0), 10);
                         $elements.body.css('padding-right', (originalBodyPadding + width) + 'px');
                         $elements.body.data('ng-dialog-original-padding', originalBodyPadding);
+                        $rootScope.$broadcast('ngDialog.setPadding', width);
                     },
 
                     resetBodyPadding: function () {
@@ -122,6 +125,7 @@
                         } else {
                             $elements.body.css('padding-right', '');
                         }
+                        $rootScope.$broadcast('ngDialog.setPadding', 0);
                     },
 
                     performCloseDialog: function ($dialog, value) {
@@ -421,7 +425,7 @@
                     detectUIRouter: function() {
                         //Detect if ui-router module is installed if not return false
                         try {
-                            angular.module("ui.router");
+                            angular.module('ui.router');
                             return true;
                         } catch(err) {
                             return false;
@@ -437,6 +441,7 @@
                 };
 
                 var publicMethods = {
+                    __PRIVATE__: privateMethods,
 
                     /*
                      * @param {Object} options:
@@ -728,7 +733,7 @@
                                 var topDialogId = openIdStack[openIdStack.length - 1];
                                 $dialog = $el(document.getElementById(topDialogId));
                                 if ($dialog.data('$ngDialogOptions').closeByEscape) {
-                                    privateMethods.closeDialog($dialog, value);
+                                    privateMethods.closeDialog($dialog, '$escape');
                                 }
                             } else {
                                 publicMethods.closeAll(value);

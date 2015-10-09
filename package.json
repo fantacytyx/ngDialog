@@ -1,12 +1,13 @@
 {
   "name": "ng-dialog",
-  "version": "0.5.1",
+  "version": "0.5.5",
   "homepage": "https://github.com/likeastore/ngDialog",
   "description": "Modal dialogs and popups provider for Angular.js applications",
   "main": "./js/ngDialog.js",
   "scripts": {
     "pretest": "npm install && bower install --allow-root",
     "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS",
+    "test-min": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS --min",
     "test-watch": "./node_modules/karma/bin/karma start --auto-watch --browsers PhantomJS",
     "serve": "node server",
     "webdriver-update": "node_modules/.bin/webdriver-manager update --standalone",
